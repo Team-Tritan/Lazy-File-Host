@@ -2,7 +2,7 @@
   "Name": "Lazy Uploader",
   "DestinationType": "ImageUploader, TextUploader, FileUploader",
   "RequestType": "POST",
-  "RequestURL": "http://sleepdeprived.wtf/upload/",
+  "RequestURL": "http://sleepdeprived.wtf/api/upload/",
   "Headers": {
     "key": "fuckmedaddy69"
   },

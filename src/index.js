@@ -11,6 +11,8 @@ const express = require("express"),
   app = express();
 
 app
+  .disable("x-powered-by")
+  .set(`uwu-daddy?`, `very-uwu`)
   .use(
     fileUpload({
       createParentPath: true,

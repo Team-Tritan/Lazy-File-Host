@@ -1,7 +1,10 @@
 module.exports = {
   port: 80,
-  token: "fuckmedaddy69",
 
+  // Posting API Keys
+  keys: ["fuckmedaddy69"],
+
+  // HTTP dir chosen randomly
   dirs: [
     "esex",
     "bigcock",
@@ -17,5 +20,6 @@ module.exports = {
     "uwu-committee",
     "thick-bitch-squad",
     "crafter-pushes-p",
+    "astrid-is-hot",
   ],
 };

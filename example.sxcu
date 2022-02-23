@@ -2,11 +2,11 @@
   "Name": "Lazy Uploader",
   "DestinationType": "ImageUploader, TextUploader, FileUploader",
   "RequestType": "POST",
-  "RequestURL": "http://sleepdeprived.wtf/api/upload/",
+  "RequestURL": "http://im.sleepdeprived.wtf/api/upload/",
   "Headers": {
     "key": "fuckmedaddy69"
   },
   "FileFormName": "sharex",
   "ResponseType": "Text",
-  "URL": "http://sleepdeprived.wtf/$json:url$"
+  "URL": "http://im.sleepdeprived.wtf/$json:url$"
 }

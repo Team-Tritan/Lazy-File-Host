@@ -19,7 +19,7 @@ function nameThisBitch(length) {
 
 router.post("/", (req, res) => {
   try {
-    if (req.headers.key !== c.token) {
+    if (!c.keys.includes(req.headers.key)) {
       return res
         .status(403)
         .send({ status: 403, message: "Invalid token, get fucked dumbass." });

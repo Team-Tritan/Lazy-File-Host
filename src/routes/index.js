@@ -29,6 +29,9 @@ router
           .status(404)
           .sendFile(path.resolve(process.cwd(), "./public/404.png"));
       } else {
+        return res.render("img.ejs", {
+          name: req.params.file,
+        });
         res.sendFile(localpath + "/" + req.params.file);
       }
     });

@@ -16,6 +16,7 @@ router
   .get("/:dir/:file", (req, res) => {
     if (!c.dirs.includes(req.params.dir)) {
       return res.status(403).send({
+        error: true,
         status: 404,
         message: "Directory not found, get fucked.",
       });
@@ -25,6 +26,7 @@ router
 
     if (!fs.existsSync(`${localpath}/${req.params.file}`)) {
       return res.status(404).send({
+        error: true,
         status: 404,
         message: "File not found, get fucked.",
       });
@@ -39,7 +41,6 @@ router
         return res.render("img.ejs", {
           name: req.params.file,
         });
-        res.sendFile(localpath + "/" + req.params.file);
       }
     });
   });

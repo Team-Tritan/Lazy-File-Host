@@ -10,7 +10,7 @@ router.get("*", function (req, res, error) {
   return res.status(500).json({
     error: true,
     status: error ? "404" : "500",
-    message: error ? "Page not found" : "Internal server error",
+    message: error ? "Page not found" : "Internal server error: " + error,
   });
 });
 

@@ -6,8 +6,8 @@ const express = require("express"),
   bodyParser = require("body-parser"),
   morgan = require("morgan"),
   _ = require("lodash"),
-  e = require("express"),
   c = require("./config"),
+  path = require("path"),
   app = express();
 
 app
@@ -22,6 +22,9 @@ app
   .use(bodyParser.json())
   .use(bodyParser.urlencoded({ extended: true }))
   .use(morgan("dev"))
+  .set("views", "pages")
+  .use("/api/img/raw", express.static("uploads"))
+  .set("view engine", "ejs")
   .use("/", require("./routes/router.js"))
   .listen(c.port, () => {
     console.log(`[~~Daddy~~] Listening for fat cocks on port ${c.port}`);

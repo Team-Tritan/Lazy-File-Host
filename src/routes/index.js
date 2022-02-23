@@ -23,6 +23,13 @@ router
 
     const localpath = path.resolve(process.cwd(), "./uploads");
 
+    if (!fs.existsSync(`${localpath}/${req.params.file}`)) {
+      return res.status(404).send({
+        status: 404,
+        message: "File not found, get fucked.",
+      });
+    }
+
     fs.access(localpath, fs.F_OK, (err) => {
       if (err) {
         res

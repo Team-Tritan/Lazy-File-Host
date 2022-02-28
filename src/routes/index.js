@@ -8,8 +8,7 @@ const router = require("express").Router(),
 router
   .get("/", (req, res) => {
     return res.json({
-      message: "hi baby, do you wanna see my cock?",
-      PS: "its a 12 incher",
+      sex: "brought to you by Dylan the e-whore."
     });
   })
 

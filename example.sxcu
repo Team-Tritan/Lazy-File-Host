@@ -4,7 +4,7 @@
   "RequestType": "POST",
   "RequestURL": "http://im.sleepdeprived.wtf/api/upload/",
   "Headers": {
-    "key": "fuckmedaddy69"
+    "key": "token"
   },
   "FileFormName": "sharex",
   "ResponseType": "Text",

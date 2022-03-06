@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "lazy sharex uploader",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "author": "sex",
   "dependencies": {
     "body-parser": "^1.19.0",

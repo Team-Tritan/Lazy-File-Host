@@ -40,6 +40,7 @@ router
       } else {
         return res.render("img.ejs", {
           name: req.params.file,
+          ext: path.extname(req.params.file),
         });
       }
     });

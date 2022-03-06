@@ -23,7 +23,7 @@ app
   .use(bodyParser.urlencoded({ extended: true }))
   .use(morgan("dev"))
   .set("views", "pages")
-  .use("/api/img/raw", express.static("uploads"))
+  .use("/api/v1/content/raw", express.static("uploads"))
   .set("view engine", "ejs")
   .use("/", require("./routes/router.js"))
   .listen(c.port, () => {

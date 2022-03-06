@@ -30,7 +30,7 @@ router
       return res.status(404).send({
         error: true,
         status: 404,
-        message: "File not found, get fucked.",
+        message: "Resource not found, get fucked.",
       });
     }
 

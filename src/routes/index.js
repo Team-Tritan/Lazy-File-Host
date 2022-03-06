@@ -5,11 +5,16 @@ const router = require("express").Router(),
   path = require("path"),
   c = require("../config");
 
+function getPath(dir) {
+  return path.resolve(process.cwd(), dir);
+}
+
 router
   .get("/", (req, res) => {
-    return res.json({
-      sex: "brought to you by Dylan the e-whore."
-    });
+    let data = {
+      dirs: c.dirs,
+    };
+    return res.render("sus.ejs", data);
   })
 
   .get("/:dir/:file", (req, res) => {
@@ -21,9 +26,7 @@ router
       });
     }
 
-    const localpath = path.resolve(process.cwd(), "./uploads");
-
-    if (!fs.existsSync(`${localpath}/${req.params.file}`)) {
+    if (!fs.existsSync(`${getPath("./uploads")}/${req.params.file}`)) {
       return res.status(404).send({
         error: true,
         status: 404,
@@ -31,14 +34,13 @@ router
       });
     }
 
-    fs.access(localpath, fs.F_OK, (err) => {
+    fs.access(getPath("./uploads"), fs.F_OK, (err) => {
       if (err) {
-        res
-          .status(404)
-          .sendFile(path.resolve(process.cwd(), "./public/404.png"));
+        res.status(404).sendFile((getPath("./public"), "/404.png"));
       } else {
         return res.render("img.ejs", {
           name: req.params.file,
+          ext: path.extname(req.params.file),
         });
       }
     });

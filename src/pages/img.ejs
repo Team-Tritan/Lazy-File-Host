@@ -10,20 +10,14 @@
       integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
       crossorigin="anonymous"
     ></script>
-    <link rel="stylesheet" href="https://cdn.upload.systems/assets/css/argon.css">
+    <link
+      rel="stylesheet"
+      href="https://cdn.upload.systems/assets/css/argon.css"
+    />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta
-      name="twitter:image"
-      content="/api/img/raw/<%=name%>"
-    />
-    <meta
-      name="twitter:image:src"
-      content="/api/img/raw/<%=name%>"
-    />
-    <meta
-      property="og:image"
-      content="/api/img/raw/<%=name%>"
-    />
+    <meta name="twitter:image" content="/api/img/raw/<%=name%>" />
+    <meta name="twitter:image:src" content="/api/img/raw/<%=name%>" />
+    <meta property="og:image" content="/api/img/raw/<%=name%>" />
     <meta name="theme-color" content="#7c00d7" />
     <meta property="og:title" content="<%=name%>" />
     <meta name="twitter:title" content="<%=name%>" />
@@ -35,22 +29,24 @@
       property="og:description"
       content="Uploaded with a poggers sharex service."
     />
-    <link type="application/json+oembed"
-    href="/api/img/raw/<%=name%>"" />
+    <link type="application/json+oembed" href="/api/img/raw/<%=name%>"" />
   </head>
   <body class="bg-dark">
     <div class="row mt-5 no-gutters">
       <div class="col-md-3"></div>
       <div class="col-md-6 mx-2">
-        <div class=" text-center bg-dark mb-4">
+        <div class="text-center bg-dark mb-4">
           <div class="card-body">
             <h1><%=name%></h1>
-            <a
-              href="/api/img/raw/<%=name%>""
-              target="_blank"
-            >
+            <% if(path.includes('txt' || 'md' || 'css') { %>
+            <meta
+              http-equiv="Refresh"
+              content="0; url='/api/content/raw/<%=name%>'"
+            />
+            <% } else { %>
+            <a href="/api/content/raw/<%=name%>" target="_blank">
               <img
-                src="/api/img/raw/<%=name%>""
+                src="/api/content/raw/<%=name%>"
                 alt="Click me if txt, otherwise this image has been deleted."
                 style="
                   max-height: 75vh;
@@ -60,6 +56,7 @@
                 "
               />
             </a>
+            <% } %>
           </div>
         </div>
       </div>

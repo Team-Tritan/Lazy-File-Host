@@ -5,14 +5,12 @@ const express = require("express"),
   cors = require("cors"),
   bodyParser = require("body-parser"),
   morgan = require("morgan"),
-  _ = require("lodash"),
   c = require("./config"),
   path = require("path"),
   app = express();
 
 app
   .disable("x-powered-by")
-  .set(`uwu-daddy?`, `very-uwu`)
   .use(
     fileUpload({
       createParentPath: true,

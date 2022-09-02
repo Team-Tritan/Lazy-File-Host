@@ -22,7 +22,7 @@ router
       return res.status(403).send({
         error: true,
         status: 404,
-        message: "Directory not found, get fucked.",
+        message: "Resource not found, get fucked.",
       });
     }
 

@@ -6,7 +6,7 @@ const router: Router = Router();
 
 interface UploadedFile {
   name: string;
-  mv: (path: string) => Promise<void>;
+  mv: (path: string, callback?: (err: Error | null) => void) => void;
 }
 
 function generateRandomName(length: number): string {
@@ -43,17 +43,30 @@ router.post("/", (req: Request, res: Response) => {
     const name = generateRandomName(10);
     const dir = config.dirs[Math.floor(Math.random() * config.dirs.length)];
 
-    sharex[0].mv(`./uploads/${name}${ext}`);
+    sharex[0].mv(`./uploads/${name}${ext}`, (err: Error | null) => {
+      if (err) {
+        return res.status(500).send({
+          status: 500,
+          message: "Failed to upload the file.",
+          error: err.message,
+        });
+      }
 
-    res.send({
-      status: 200,
-      message: "File just got uploaded!",
-      url: `${dir}/${name}${ext}`,
+      res.send({
+        status: 200,
+        message: "File just got uploaded!",
+        url: `${dir}/${name}${ext}`,
+      });
     });
   } catch (err: any) {
-    res.status(500).send(err);
+    res.status(500).send({
+      status: 500,
+      message: "Internal Server Error",
+      error: err.message,
+    });
     console.error(`[ERROR] ${err.stack}`);
   }
 });
 
 export default router;
+

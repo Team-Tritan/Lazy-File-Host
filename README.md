@@ -37,3 +37,7 @@ alias screenshot="sh ~/uploader/flameshot.sh"
 - xdg-utils
 - xclip
 - yad
+
+## IOS Shortcuts
+
+See the `uploader_files` folder to download the config for a mobile uploader widget! :DD

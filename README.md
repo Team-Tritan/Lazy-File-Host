@@ -33,7 +33,7 @@ alias upload="sh ~/uploader/flameshot.sh"
 alias screenshot="sh ~/uploader/flameshot.sh"
 ```
 
-## Deps to Install
+### Deps to Install
 - xdg-utils
 - xclip
 - yad

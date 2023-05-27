@@ -1,14 +1,14 @@
 #!/bin/bash
 
-API_ENDPOINT="https://im.horny.rip/api/upload/"
+API="https://im.horny.rip/api/upload/"
 DOMAIN="https://im.horny.rip"
 API_KEY="fuckurmom"
 
-screenshot_file="$(mktemp /tmp/screenshot.XXXXXXXXXX.png)"
+screenshot="$(mktemp /tmp/screenshot.XXXXXXXXXX.png)"
 
 cleanup() {
     echo "Cleaning up..."
-    rm -f "$screenshot_file"
+    rm -f "$screenshot"
     exit 1
 }
 
@@ -23,65 +23,29 @@ open_url() {
 
 copy_to_clipboard() {
     local url=$1
-    echo -n "$url" | xclip -selection clipboard
+    
+    if command -v xclip >/dev/null 2>&1; then
+        echo -n "$url" | xclip -selection clipboard
+        echo "URL copied to clipboard using xclip."
+        elif command -v pbcopy >/dev/null 2>&1; then
+        echo -n "$url" | pbcopy
+        echo "URL copied to clipboard using pbcopy."
+        elif command -v clip >/dev/null 2>&1; then
+        echo -n "$url" | clip
+        echo "URL copied to clipboard using clip."
+    else
+        display_error "Failed to copy URL to clipboard. Please manually copy the URL: $url."
+        return 1
+    fi
 }
 
 display_error() {
-    local error_message=$1
-    local error_title="Error"
-    local error_width=300
-    
-    yad --title="$error_title" --text="$error_message" --button="Close:0" --center --width="$error_width"
+    local error=$1
+    zenity --error --text="$error"
 }
 
 upload_image() {
-    local file=$1
-    local response=$(curl -s -H "key: $API_KEY" -F "sharex=@$file" "$API_ENDPOINT")
-    local upload_status=$?
-    
-    if [ $upload_status -ne 0 ]; then
-        display_error "Failed to upload image."
-        cleanup
-    fi
-    
-    local uploaded_url=$(echo "$response" | grep -oE '"url":"([^"]+)"' | cut -d'"' -f4)
-    
-    if [ -z "$uploaded_url" ]; then
-        display_error "Failed to retrieve uploaded URL."
-        cleanup
-    fi
-    
-    echo "$uploaded_url"
-}
-
-notify_and_copy_url() {
-    local url=$1
-    
-    local notification_title="Sussy Image Uploader"
-    local notification_body="\n The screenshot has been uploaded successfully.\n"
-    local notification_width=300
-    
-    local button
-    
-    button=$(yad --title="$notification_title" --text="$notification_body" \
-    --align="center" --button="Open:1" --button="Copy:2" --button="Close:0" --center --width="$notification_width") || cleanup
-    
-    case $button in
-        1)
-            open_url "$url"
-        ;;
-        2)
-            copy_to_clipboard "$url"
-        ;;
-        *)
-        ;;
-    esac
-}
-
-trap exit_handler EXIT
-
-if [ -t 1 ]; then
-    flameshot gui -r > "$screenshot_file"
+    flameshot gui -r > "$screenshot"
     capture_status=$?
     
     if [ $capture_status -ne 0 ]; then
@@ -89,12 +53,48 @@ if [ -t 1 ]; then
         cleanup
     fi
     
-    uploaded_url=$(upload_image "$screenshot_file")
-    full_url="$DOMAIN/$uploaded_url"
+    response=$(curl -s -H "key: $API_KEY" -F "sharex=@$screenshot" "$API")
+    upload_status=$?
     
-    notify_and_copy_url "$full_url"
-else
-    echo "Script is not running in an interactive shell. Skipping upload."
-    cleanup
-fi
+    if [ $upload_status -ne 0 ]; then
+        display_error "Failed to upload image."
+        cleanup
+    fi
+    
+    url=$(echo "$response" | grep -oE '"url":"([^"]+)"' | cut -d'"' -f4)
+    
+    if [ -z "$url" ]; then
+        display_error "Failed to get uploaded URL."
+        cleanup
+    fi
+    
+    full_url="$DOMAIN/$url"
+}
 
+notify() {
+    local url=$1
+    
+    copy_to_clipboard "$url"
+    
+    local summary="Sussy Image Host"
+    local body="The image was uploaded successfully and the URL was copied to the clipboard."
+    
+    notify-send "$summary" "$body"
+    
+    #open_url "$url"
+}
+
+main() {
+    trap exit_handler EXIT
+    
+    if [ -t 1 ]; then
+        upload_image
+        notify "$full_url"
+    else
+        echo "Script is not running in an interactive shell. Skipping."
+    fi
+    
+    cleanup
+}
+
+main

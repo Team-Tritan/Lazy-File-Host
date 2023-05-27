@@ -1,4 +1,6 @@
 import express, { Request, Response, NextFunction, Router } from "express";
+import indexRouter from "./index";
+import uploadRouter from "./api/upload";
 
 const router: Router = express.Router();
 
@@ -7,8 +9,8 @@ router.get("*", (req: Request, res: Response, next: NextFunction) => {
   next();
 });
 
-router.use("/", require("./index"));
-router.use("/api/upload", require("./api/upload"));
+router.use("/", indexRouter);
+router.use("/api/upload", uploadRouter);
 
 router.get("*", (req: Request, res: Response, error: any) => {
   return res.status(500).json({

@@ -17,7 +17,7 @@ function generateRandomName(length: number): string {
 
 router.post("/", (req: Request, res: Response) => {
   try {
-    const { key } = req.headers;
+    const { key } = req.headers as { key: string };
 
     if (!config.keys.includes(key)) {
       return res.status(403).send({
@@ -34,17 +34,17 @@ router.post("/", (req: Request, res: Response) => {
     }
 
     const { sharex } = req.files;
-    const ext = path.extname(sharex.name);
+    const ext = path.extname(sharex[0].name);
     const name = generateRandomName(10);
     const dir = config.dirs[Math.floor(Math.random() * config.dirs.length)];
 
-    sharex.mv(`./uploads/${name}${ext}`);
+    sharex[0].mv(`./uploads/${name}${ext}`);
     res.send({
       status: 200,
       message: "File just got uploaded!",
       url: `${dir}/${name}${ext}`,
     });
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).send(err);
     console.error(`[ERROR] ${err.stack}`);
   }

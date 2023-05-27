@@ -4,6 +4,11 @@ import config from "../../config";
 
 const router: Router = Router();
 
+interface UploadedFile {
+  name: string;
+  mv: (path: string) => void;
+}
+
 function generateRandomName(length: number): string {
   let result = "";
   const characters =
@@ -33,7 +38,7 @@ router.post("/", (req: Request, res: Response) => {
       });
     }
 
-    const { sharex } = req.files;
+    const { sharex } = req.files as { sharex: UploadedFile[] };
     const ext = path.extname(sharex[0].name);
     const name = generateRandomName(10);
     const dir = config.dirs[Math.floor(Math.random() * config.dirs.length)];

@@ -54,6 +54,8 @@ router.post("/", (req: Request, res: Response) => {
         });
       }
 
+      console.log(`User ${key} just uploaded ${name}.${ext}`);
+      
       res.send({
         status: 200,
         message: "File just got uploaded!",

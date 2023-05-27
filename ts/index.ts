@@ -17,7 +17,7 @@ app
   .set("views", "pages")
   .use("/api/content/raw", express.static("uploads"))
   .set("view engine", "ejs")
-  .use("/", require("./routes/router.js"))
+  .use("/", require("./routes/router"))
   .listen(config.port, () => {
     console.log(`[~~Daddy~~] Listening for fat cocks on port ${config.port}`);
   });

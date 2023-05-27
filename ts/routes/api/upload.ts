@@ -6,7 +6,7 @@ const router: Router = Router();
 
 interface UploadedFile {
   name: string;
-  mv: (path: string, callback: (err: Error | null) => void) => void;
+  mv: (path: string) => Promise<void>;
 }
 
 function generateRandomName(length: number): string {

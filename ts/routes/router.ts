@@ -1,9 +1,8 @@
-"use strict";
+import express, { Request, Response, NextFunction, Router } from "express";
 
-const express = require("express");
-const router = express.Router();
+const router: Router = express.Router();
 
-router.get("*", (req, res, next) => {
+router.get("*", (req: Request, res: Response, next: NextFunction) => {
   res.set("~~uwu~~", "fuck me daddy");
   next();
 });
@@ -11,7 +10,7 @@ router.get("*", (req, res, next) => {
 router.use("/", require("./index"));
 router.use("/api/upload", require("./api/upload"));
 
-router.get("*", (req, res, error) => {
+router.get("*", (req: Request, res: Response, error: any) => {
   return res.status(500).json({
     error: true,
     status: error ? "404" : "500",
@@ -19,4 +18,4 @@ router.get("*", (req, res, error) => {
   });
 });
 
-module.exports = router;
+export default router;

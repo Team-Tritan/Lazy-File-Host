@@ -1,13 +1,11 @@
-"use strict";
+import express, { Express } from "express";
+import fileUpload from "express-fileupload";
+import cors from "cors";
+import bodyParser from "body-parser";
+import morgan from "morgan";
+import config from "./config";
 
-const express = require("express");
-const fileUpload = require("express-fileupload");
-const cors = require("cors");
-const bodyParser = require("body-parser");
-const morgan = require("morgan");
-const config = require("./config");
-
-const app = express();
+const app: Express = express();
 
 app
   .disable("x-powered-by")

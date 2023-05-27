@@ -1,22 +1,21 @@
-"use strict";
+import { Router, Request, Response } from "express";
+import path from "path";
+import config from "../../config";
 
-const express = require("express");
-const router = express.Router();
-const path = require("path");
-const config = require("../../config");
+const router: Router = Router();
 
-function generateRandomName(length) {
-  var result = "";
-  var characters =
+function generateRandomName(length: number): string {
+  let result = "";
+  const characters =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  var charactersLength = characters.length;
-  for (var i = 0; i < length; i++) {
+  const charactersLength = characters.length;
+  for (let i = 0; i < length; i++) {
     result += characters.charAt(Math.floor(Math.random() * charactersLength));
   }
   return result;
 }
 
-router.post("/", (req, res) => {
+router.post("/", (req: Request, res: Response) => {
   try {
     const { key } = req.headers;
 
@@ -51,4 +50,4 @@ router.post("/", (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

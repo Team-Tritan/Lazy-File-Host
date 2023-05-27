@@ -31,19 +31,19 @@ router.post("/", (req: Request, res: Response) => {
       });
     }
 
-    if (!req.files) {
+    if (!req.files || !req.files.sharex || req.files.sharex.length === 0) {
       return res.status(404).send({
         status: 404,
         message: "No file uploaded, are you fucking stupid?",
       });
     }
 
-    const { sharex } = req.files as { [fieldname: string]: UploadedFile[] };
-    const ext = path.extname(sharex[0].name);
+    const sharex = req.files.sharex as UploadedFile;
+    const ext = path.extname(sharex.name);
     const name = generateRandomName(10);
     const dir = config.dirs[Math.floor(Math.random() * config.dirs.length)];
 
-    sharex[0].mv(`./uploads/${name}${ext}`, (err: Error | null) => {
+    sharex.mv(`./uploads/${name}${ext}`, (err: Error | null) => {
       if (err) {
         return res.status(500).send({
           status: 500,
@@ -67,6 +67,7 @@ router.post("/", (req: Request, res: Response) => {
     console.error(`[ERROR] ${err.stack}`);
   }
 });
+
 
 export default router;
 

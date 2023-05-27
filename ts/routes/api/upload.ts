@@ -6,7 +6,7 @@ const router: Router = Router();
 
 interface UploadedFile {
   name: string;
-  mv: (path: string) => void;
+  mv: (path: string, callback: (err: Error | null) => void) => void;
 }
 
 function generateRandomName(length: number): string {
@@ -38,12 +38,13 @@ router.post("/", (req: Request, res: Response) => {
       });
     }
 
-    const { sharex } = req.files as { sharex: UploadedFile[] };
+    const { sharex } = req.files as { [fieldname: string]: UploadedFile[] };
     const ext = path.extname(sharex[0].name);
     const name = generateRandomName(10);
     const dir = config.dirs[Math.floor(Math.random() * config.dirs.length)];
 
     sharex[0].mv(`./uploads/${name}${ext}`);
+
     res.send({
       status: 200,
       message: "File just got uploaded!",

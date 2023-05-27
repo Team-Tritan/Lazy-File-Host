@@ -2,8 +2,6 @@ import { Router, Request, Response } from "express";
 import path from "path";
 import config from "../../config";
 
-const router: Router = Router();
-
 interface UploadedFile {
   name: string;
   mv: (path: string, callback?: (err: Error | null) => void) => void;
@@ -19,6 +17,8 @@ function generateRandomName(length: number): string {
   }
   return result;
 }
+
+const router: Router = Router();
 
 router.post("/", (req: Request, res: Response) => {
   try {

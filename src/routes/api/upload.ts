@@ -54,7 +54,7 @@ router.post("/", (req: Request, res: Response) => {
         });
       }
 
-      console.log(`User ${key} just uploaded ${name}.${ext}`);
+      console.log(`${key} just uploaded ${name + ext}`);
       
       res.send({
         status: 200,

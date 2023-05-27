@@ -6,6 +6,7 @@ import morgan from "morgan";
 import config from "./config";
 
 const app: Express = express();
+const loggerMiddleware = morgan('dev');
 
 app
   .disable("x-powered-by")
@@ -13,7 +14,7 @@ app
   .use(cors())
   .use(bodyParser.json())
   .use(bodyParser.urlencoded({ extended: true }))
-  .use(morgan("dev"))
+  .use(loggerMiddleware) 
   .set("views", "pages")
   .use("/api/content/raw", express.static("uploads"))
   .set("view engine", "ejs")

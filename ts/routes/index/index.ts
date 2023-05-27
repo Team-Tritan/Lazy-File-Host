@@ -1,7 +1,7 @@
 import { Router, Request, Response } from "express";
 import fs from "fs";
 import path from "path";
-import config from "../config";
+import config from "../../config";
 
 const router: Router = Router();
 

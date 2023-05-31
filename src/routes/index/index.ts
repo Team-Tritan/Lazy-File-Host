@@ -35,8 +35,11 @@ router.get("/:dir/:file", (req: Request, res: Response) => {
 
   fs.access(getPath("./uploads"), fs.constants.F_OK, (err) => {
     if (err) {
-      res.status(404).sendFile(path.join(getPath("./public"), "/404.png"));
+      res.status(404).json({error: true, status: 404, message: "Not found"});
     } else {
+      
+      console.log(path.extname(req.params.file));
+      
       return res.render("img.ejs", {
         name: req.params.file,
         ext: path.extname(req.params.file),

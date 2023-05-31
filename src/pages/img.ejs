@@ -39,7 +39,7 @@
         <div class="text-center bg-dark mb-4">
           <div class="card-body">
             <h1><%=name%></h1>
-            <% if(ext.includes('txt' || 'md' || 'css' || 'exe' || 'html')){ %>
+            <% if(ext.includes('txt' || 'md' || 'css' || 'exe' || 'html' || 'mp4' || 'heic' )){ %>
             <meta
               http-equiv="Refresh"
               content="0; url='/api/content/raw/<%=name%>'"
@@ -48,7 +48,7 @@
             <a href="/api/content/raw/<%=name%>" target="_blank">
               <img
                 src="/api/content/raw/<%=name%>"
-                alt="Click here to download file"
+                alt="Click here to download/open the file."
                 style="
                   max-height: 75vh;
                   width: auto;

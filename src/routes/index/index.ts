@@ -37,9 +37,7 @@ router.get("/:dir/:file", (req: Request, res: Response) => {
     if (err) {
       res.status(404).json({error: true, status: 404, message: "Not found"});
     } else {
-      
-      console.log(path.extname(req.params.file));
-      
+            
       return res.render("img.ejs", {
         name: req.params.file,
         ext: path.extname(req.params.file),

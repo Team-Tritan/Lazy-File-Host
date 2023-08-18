@@ -2,7 +2,7 @@
 
 API="https://im.horny.rip/api/upload/"
 DOMAINS=("https://im.horny.rip" "https://im.sleepdeprived.wtf" "https://youre.sleepdeprived.wtf")
-API_KEY="fuckurmom2"
+API_KEY="fuckurmom21!"
 
 screenshot="$(mktemp /tmp/screenshot.XXXXXXXXXX.png)"
 

@@ -23,29 +23,43 @@ interface IShareXConfig {
 }
 
 const router = express.Router();
+const keysFile = "keys.json";
 
 router.post("/", (req, res) => {
-  const { key } = req.headers as {
-    key: string;
-  };
+  const { key } = req.headers as { key: string };
 
-  const validKeys = JSON.parse(fs.readFileSync("keys.json", "utf8"));
-
-  if (!validKeys.some((k: IKeys) => k.key === key)) {
-    return res.status(403).send({
-      status: 403,
-      message: "Invalid key.",
-    });
-  }
+  const validKeys = loadValidKeys();
 
   if (!key) {
     return res.status(403).json({
       status: 403,
-      message: "You need to login to the API to get your ShareX config.",
+      message: "You need to be authenticated to get your ShareX config.",
     });
   }
 
-  const config: IShareXConfig = {
+  if (!validKeys.some((k: IKeys) => k.key === key)) {
+    return res.status(403).send({
+      status: 403,
+      message: "Invalid key, retard.",
+    });
+  }
+
+  const config: IShareXConfig = generateShareXConfig(key);
+
+  sendShareXConfig(res, config);
+});
+
+function loadValidKeys(): IKeys[] {
+  try {
+    const keysData = fs.readFileSync(keysFile, "utf8");
+    return JSON.parse(keysData) as IKeys[];
+  } catch (err) {
+    return [];
+  }
+}
+
+function generateShareXConfig(key: string): IShareXConfig {
+  return {
     Name: "Lazy Uploader",
     DestinationType: "ImageUploader, TextUploader, FileUploader",
     RequestType: "POST",
@@ -57,7 +71,9 @@ router.post("/", (req, res) => {
     ResponseType: "Text",
     URL: "https://im.sleepdeprived.wtf/$json:url$",
   };
+}
 
+function sendShareXConfig(res: express.Response, config: IShareXConfig): void {
   const file = JSON.stringify(config, null, 2);
   const fileName = "sharex-config.sxcu";
 
@@ -65,6 +81,6 @@ router.post("/", (req, res) => {
   res.setHeader("Content-type", "application/json");
 
   res.send(file);
-});
+}
 
 export default router;

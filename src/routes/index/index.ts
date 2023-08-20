@@ -1,4 +1,4 @@
-"use strict";
+"use stroct";
 
 import { Router, type Request, type Response } from "express";
 import fs from "fs";
@@ -6,47 +6,50 @@ import path from "path";
 import config from "../../config";
 
 const router: Router = Router();
+const uploadsDir = getPath("./uploads");
 
 function getPath(dir: string): string {
   return path.resolve(process.cwd(), dir);
 }
 
-router.get("/", (req: Request, res: Response) => {
-  let data = {
-    domains: config.domains,
-  };
+function renderError(res: Response, status: number, message: string) {
+  res.status(status).json({
+    error: true,
+    status,
+    message,
+  });
+}
 
-  res.render("uploader.ejs", data);
+function findFileWithoutExtension(
+  fileName: string,
+  dirPath: string
+): string | null {
+  const fileWithoutExtension = fileName.replace(/\.[^.]+$/, "");
+  const files = fs.readdirSync(dirPath);
+
+  return (
+    files.find(
+      (file) => fileWithoutExtension === file.replace(/\.[^.]+$/, "")
+    ) || null
+  );
+}
+
+router.get("/", (req: Request, res: Response) => {
+  return res.render("uploader", {
+    domains: config.domains,
+  });
 });
 
 router.get("/:dir/:file", (req: Request, res: Response) => {
-  if (!config.dirs.includes(req.params.dir)) {
-    return res.status(404).send({
-      error: true,
-      status: 404,
-      message: "Content not found.",
-    });
-  }
+  const { dir, file } = req.params;
+  const fileWithExtension = findFileWithoutExtension(file, uploadsDir);
 
-  if (!fs.existsSync(`${getPath("./uploads")}/${req.params.file}`)) {
-    return res.status(404).send({
-      error: true,
-      status: 404,
-      message: "Content not found.",
-    });
-  }
+  if (!config.dirs.includes(dir) || !fileWithExtension)
+    return renderError(res, 404, "Content not found.");
 
-  fs.access(getPath("./uploads"), fs.constants.F_OK, (err) => {
-    if (err) {
-      res
-        .status(404)
-        .json({ error: true, status: 404, message: "Content not found." });
-    } else {
-      res.render("img.ejs", {
-        name: req.params.file,
-        ext: path.extname(req.params.file),
-      });
-    }
+  return res.render("img", {
+    name: fileWithExtension,
+    ext: path.extname(fileWithExtension),
   });
 });
 

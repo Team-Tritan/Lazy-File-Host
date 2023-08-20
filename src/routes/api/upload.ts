@@ -31,7 +31,9 @@ router.post("/", (req: Request, res: Response) => {
       });
     }
 
-    const { sharex } = req.files as { sharex?: IUploadedFile | IUploadedFile[] };
+    const { sharex } = req.files as {
+      sharex?: IUploadedFile | IUploadedFile[];
+    };
 
     if (!sharex || (Array.isArray(sharex) && sharex.length === 0)) {
       return res.status(404).send({
@@ -78,7 +80,7 @@ router.post("/", (req: Request, res: Response) => {
       res.send({
         status: 200,
         message: "File just got uploaded!",
-        url: `${dir}/${name}${ext}`,
+        url: `${dir}/${name}`,
       });
     });
   } catch (err: any) {

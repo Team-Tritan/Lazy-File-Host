@@ -7,7 +7,7 @@ import {
   type NextFunction,
 } from "express";
 
-let router = Router();
+const router: Router = Router();
 
 class CustomError extends Error {
   status: number;

@@ -75,7 +75,16 @@
       $(document).ready(function () {
         const dropzone = $("#dropzone");
         let apiKey = localStorage.getItem("apiKey") || "";
-        const domains = [];
+        const domains = [
+          "https://im.sleepdeprived.wtf",
+          "https://you're.sleepdeprived.wtf",
+          "https://probably.sleepdeprived.wtf",
+          "https://because.sleepdeprived.wtf",
+          "https://im.horny.rip",
+          "https://you're.horny.rip",
+          "https://probably.horny.rip",
+          "https://because.horny.rip",
+        ];
 
         $("#key-input").val(apiKey);
 

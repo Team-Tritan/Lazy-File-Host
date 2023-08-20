@@ -79,6 +79,7 @@
         const login = $("#login");
 
         let apiKey = localStorage.getItem("uploader_apiKey") || "";
+        let key = $("#key-input").val(apiKey);
 
         const domains = [
           "https://im.sleepdeprived.wtf",
@@ -97,7 +98,6 @@
           $("#key-input").val(apiKey);
         }
 
-        // Fetch the API key from local storage and set it as the input value
         setApiKey(apiKey);
 
         $("#key-button").click(function () {

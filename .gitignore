@@ -1,4 +1,4 @@
 uploads
 node_modules
-keys.json
-upload-log.json
+src/upload-log.json
+src/keys.json

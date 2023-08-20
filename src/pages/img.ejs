@@ -85,20 +85,20 @@
           <div class="card-body">
             <h1><%=name%></h1>
             <% if(ext.includes('.txt' || '.md' || '.css' || '.exe' || '.html' ||
-            '.mp4' || '.heic' )){ %>
+            '.mp4' || '.heic', '.json' )){ %>
             <meta
               http-equiv="Refresh"
               content="0; url='/api/content/raw/<%=name%>'"
             />
             <% } %>
             <a
-              style="text-decoration: none; color: grey"
+              style="text-decoration: none; color: whie"
               href="/api/content/raw/<%=name%>"
               target="_blank"
             >
               <img
                 src="/api/content/raw/<%=name%>"
-                alt="Click here to download/open the file."
+                alt="Cannot preview this file in the browser, click here to open."
               />
             </a>
             <br />

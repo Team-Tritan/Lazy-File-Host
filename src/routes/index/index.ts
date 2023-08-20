@@ -21,10 +21,10 @@ router.get("/", (req: Request, res: Response) => {
 
 router.get("/:dir/:file", (req: Request, res: Response) => {
   if (!config.dirs.includes(req.params.dir)) {
-    return res.status(403).send({
+    return res.status(404).send({
       error: true,
       status: 404,
-      message: "Resource not found.",
+      message: "Content not found.",
     });
   }
 
@@ -32,13 +32,15 @@ router.get("/:dir/:file", (req: Request, res: Response) => {
     return res.status(404).send({
       error: true,
       status: 404,
-      message: "Resource not found.",
+      message: "Content not found.",
     });
   }
 
   fs.access(getPath("./uploads"), fs.constants.F_OK, (err) => {
     if (err) {
-      res.status(404).json({ error: true, status: 404, message: "Not found" });
+      res
+        .status(404)
+        .json({ error: true, status: 404, message: "Content not found." });
     } else {
       res.render("img.ejs", {
         name: req.params.file,

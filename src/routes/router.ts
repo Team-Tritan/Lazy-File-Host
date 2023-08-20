@@ -10,6 +10,7 @@ import imageRouter from "./index";
 import uploadRouter from "./api/upload";
 import createKey from "./api/create-key";
 import sharexConfig from "./api/sharex-config";
+import errorHandler from "./err";
 
 const router: Router = express.Router();
 
@@ -23,12 +24,6 @@ router.use("/api/upload", uploadRouter);
 router.use("/api/create-key", createKey);
 router.use("/api/sharex-config", sharexConfig);
 
-router.use("*", (req: Request, res: Response, error: any) => {
-  return res.status(error ? 500 : 404).json({
-    error: true,
-    status: error ? "500" : "404",
-    message: error ? `Internal server error: ${error}` : "Content not found",
-  });
-});
+router.use("*", errorHandler);
 
 export default router;

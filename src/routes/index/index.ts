@@ -1,4 +1,6 @@
-import { Router, Request, Response } from "express";
+"use strict";
+
+import { Router, type Request, type Response } from "express";
 import fs from "fs";
 import path from "path";
 import config from "../../config";
@@ -13,7 +15,7 @@ router.get("/", (req: Request, res: Response) => {
   const data = {
     dirs: config.dirs,
   };
-  return res.render("sus.ejs", data);
+  res.render("sus.ejs", data);
 });
 
 router.get("/:dir/:file", (req: Request, res: Response) => {
@@ -21,7 +23,7 @@ router.get("/:dir/:file", (req: Request, res: Response) => {
     return res.status(403).send({
       error: true,
       status: 404,
-      message: "Resource not found, get fucked.",
+      message: "Resource not found.",
     });
   }
 
@@ -29,16 +31,15 @@ router.get("/:dir/:file", (req: Request, res: Response) => {
     return res.status(404).send({
       error: true,
       status: 404,
-      message: "Resource not found, get fucked.",
+      message: "Resource not found.",
     });
   }
 
   fs.access(getPath("./uploads"), fs.constants.F_OK, (err) => {
     if (err) {
-      res.status(404).json({error: true, status: 404, message: "Not found"});
+      res.status(404).json({ error: true, status: 404, message: "Not found" });
     } else {
-            
-      return res.render("img.ejs", {
+      res.render("img.ejs", {
         name: req.params.file,
         ext: path.extname(req.params.file),
       });

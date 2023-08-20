@@ -2,7 +2,12 @@
   "name": "sharex-shit",
   "version": "1.0.0",
   "description": "lazy sharex uploader",
-  "main": "index.js",
+  "main": "index.ts",
+  "scripts": {
+    "dev": "cd src && ts-node index.ts",
+    "build": "npx tsc --build && cp -r ./src/pages/ ./dist/ && cp -r ./src/public/ ./dist/",
+    "start": "cd dist && node index.js"
+  },
   "author": "sex",
   "dependencies": {
     "@types/body-parser": "^1.19.2",

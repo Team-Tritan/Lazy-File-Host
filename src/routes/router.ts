@@ -1,22 +1,31 @@
-import express, { Request, Response, NextFunction, Router } from "express";
+"use strict";
+
+import express, {
+  type Request,
+  type Response,
+  type NextFunction,
+  type Router,
+} from "express";
 import imageRouter from "./index";
 import uploadRouter from "./api/upload";
+import webUploader from "./uploader";
 
 const router: Router = express.Router();
 
-router.get("*", (req: Request, res: Response, next: NextFunction) => {
+router.use("*", (req: Request, res: Response, next: NextFunction) => {
   res.set("~~uwu~~", "fuck me daddy");
   next();
 });
 
 router.use("/", imageRouter);
+router.use("/uploader", webUploader);
 router.use("/api/upload", uploadRouter);
 
-router.get("*", (req: Request, res: Response, error: any) => {
-  return res.status(500).json({
+router.use("*", (req: Request, res: Response, error: any) => {
+  return res.status(error ? 500 : 404).json({
     error: true,
-    status: error ? "404" : "500",
-    message: error ? "Content not found" : "Internal server error: " + error,
+    status: error ? "500" : "404",
+    message: error ? `Internal server error: ${error}` : "Content not found",
   });
 });
 

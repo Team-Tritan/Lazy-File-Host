@@ -1,4 +1,6 @@
-import { Router, Request, Response } from "express";
+"use strict";
+
+import { Router, type Request, type Response } from "express";
 import path from "path";
 import config from "../../config";
 
@@ -55,7 +57,7 @@ router.post("/", (req: Request, res: Response) => {
       }
 
       console.log(`${key} just uploaded ${name + ext}`);
-      
+
       res.send({
         status: 200,
         message: "File just got uploaded!",

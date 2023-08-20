@@ -16,6 +16,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(fileUpload({ createParentPath: true }));
 app.disable("x-powered-by");
+
 app.set("views", "pages");
 app.set("view engine", "ejs");
 

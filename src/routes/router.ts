@@ -8,6 +8,7 @@ import express, {
 } from "express";
 import imageRouter from "./index";
 import uploadRouter from "./api/upload";
+import createKey from "./api/create";
 
 const router: Router = express.Router();
 
@@ -18,6 +19,7 @@ router.use("*", (req: Request, res: Response, next: NextFunction) => {
 
 router.use("/", imageRouter);
 router.use("/api/upload", uploadRouter);
+router.use("/api/create", createKey);
 
 router.use("*", (req: Request, res: Response, error: any) => {
   return res.status(error ? 500 : 404).json({

@@ -60,22 +60,26 @@
       <p id="key-button" style="font-size: 0.9em">Login →</p>
 
       <p style="margin-top: 30px; color: grey">
-        If you would like to request an API key, join our
+        If you would like to request an API key,
         <a
-          style="color: grey; text-decoration: none"
-          href="https://tritan.gg/http"
-          >Discord</a
+          style="color: grey; text-decoration: none; cursor: pointer"
+          id="request-key-link"
+          >click here</a
         >.
       </p>
     </div>
 
     <div id="dropzone" style="display: none">Drop an image here to upload.</div>
+
     <div id="link"></div>
 
     <script>
       $(document).ready(function () {
         const dropzone = $("#dropzone");
-        let apiKey = localStorage.getItem("apiKey") || "";
+        const login = $("#login");
+
+        let apiKey = localStorage.getItem("uploader_apiKey") || "";
+
         const domains = [
           "https://im.sleepdeprived.wtf",
           "https://ur.sleepdeprived.wtf",
@@ -87,19 +91,32 @@
           "https://because.horny.rip",
         ];
 
+        function setApiKey(key) {
+          apiKey = key;
+          localStorage.setItem("uploader_apiKey", apiKey);
+          $("#key-input").val(apiKey);
+        }
+
         $("#key-input").val(apiKey);
 
         $("#key-button").click(function () {
-          apiKey = $("#key-input").val();
-
-          if (!apiKey) {
+          const inputKey = $("#key-input").val();
+          if (!inputKey) {
             alert("Please enter an API key.");
             return;
           }
-
-          localStorage.setItem("apiKey", apiKey);
-          $("#login").hide();
+          setApiKey(inputKey);
+          login.hide();
           dropzone.show();
+        });
+
+        $("#request-key-link").click(function () {
+          $.post("/api/create", function (data) {
+            setApiKey(data.key);
+            alert(
+              `Your API key is ${data.key}. It has been copied to your clipboard.`
+            );
+          });
         });
 
         dropzone.on({
@@ -133,11 +150,10 @@
               success: function (data) {
                 const domain =
                   domains[Math.floor(Math.random() * domains.length)];
+
                 const link = domain + data.url;
 
-                $("#link")
-                  .html(`<a href="${link}">${link}</a>`)
-                  .addClass("link");
+                $("#link").append(`<a href="${link}">${link}</a><br>`);
               },
 
               error: function (xhr, status, error) {
@@ -166,9 +182,7 @@
                     domains[Math.floor(Math.random() * domains.length)];
                   const link = `${domain}/${data.url}`;
 
-                  $("#link")
-                    .html(`<a href="${link}">${link}</a>`)
-                    .addClass("link");
+                  $("#link").append(`<a href="${link}">${link}</a><br>`);
                 },
 
                 error: function (xhr, status, error) {

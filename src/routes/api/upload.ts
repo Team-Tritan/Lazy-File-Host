@@ -1,8 +1,7 @@
-"use strict";
-
-import { Router, type Request, type Response } from "express";
+import { Router, Request, Response } from "express";
 import path from "path";
 import config from "../../config";
+import fs from "fs";
 
 interface UploadedFile {
   name: string;
@@ -28,10 +27,12 @@ router.post("/", (req: Request, res: Response) => {
       key: string;
     };
 
-    if (!config.keys.includes(key)) {
+    const keys = JSON.parse(fs.readFileSync("keys.json", "utf8"));
+
+    if (!keys.some((k: { key: string }) => k.key === key)) {
       return res.status(403).send({
         status: 403,
-        message: "Invalid token, get fucked dumbass.",
+        message: "Invalid key retard.",
       });
     }
 
@@ -48,6 +49,7 @@ router.post("/", (req: Request, res: Response) => {
     const ext = path.extname(singleSharex.name);
     const name = generateRandomName(10);
     const dir = config.dirs[Math.floor(Math.random() * config.dirs.length)];
+    const ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
 
     singleSharex.mv(`./uploads/${name}${ext}`, (err: Error | null) => {
       if (err) {
@@ -58,7 +60,25 @@ router.post("/", (req: Request, res: Response) => {
         });
       }
 
-      console.log(`${key} just uploaded ${name + ext}`);
+      console.log(`${key} just uploaded ${name + ext} from ${ip}.`);
+
+      const logEntry = {
+        ip: ip,
+        key: key,
+        fileName: name + ext,
+        timestamp: new Date().toISOString(),
+      };
+
+      const existingLogs = JSON.parse(
+        fs.readFileSync("upload-log.json", "utf8")
+      );
+
+      existingLogs.push(logEntry);
+
+      fs.writeFileSync(
+        "upload-log.json",
+        JSON.stringify(existingLogs, null, 2)
+      );
 
       res.send({
         status: 200,

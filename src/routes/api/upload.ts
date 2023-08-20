@@ -3,12 +3,12 @@ import path from "path";
 import config from "../../config";
 import fs from "fs";
 
-interface UploadedFile {
+interface IUploadedFile {
   name: string;
   mv: (path: string, callback?: (err: Error | null) => void) => void;
 }
 
-interface Keys {
+interface IKeys {
   key: string;
   ip: any;
   created_at: string;
@@ -24,14 +24,14 @@ router.post("/", (req: Request, res: Response) => {
 
     const keys = JSON.parse(fs.readFileSync("keys.json", "utf8"));
 
-    if (!keys.some((k: Keys) => k.key === key)) {
+    if (!keys.some((k: IKeys) => k.key === key)) {
       return res.status(403).send({
         status: 403,
         message: "Invalid key retard.",
       });
     }
 
-    const { sharex } = req.files as { sharex?: UploadedFile | UploadedFile[] };
+    const { sharex } = req.files as { sharex?: IUploadedFile | IUploadedFile[] };
 
     if (!sharex || (Array.isArray(sharex) && sharex.length === 0)) {
       return res.status(404).send({

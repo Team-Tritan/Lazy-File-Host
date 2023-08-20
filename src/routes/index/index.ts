@@ -12,7 +12,11 @@ function getPath(dir: string): string {
 }
 
 router.get("/", (req: Request, res: Response) => {
-  res.render("uploader.ejs");
+  let data = {
+    domains: config.domains,
+  };
+
+  res.render("uploader.ejs", data);
 });
 
 router.get("/:dir/:file", (req: Request, res: Response) => {

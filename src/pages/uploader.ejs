@@ -77,20 +77,10 @@
       $(document).ready(function () {
         const dropzone = $("#dropzone");
         const login = $("#login");
+        const domains = <%- JSON.stringify(domains) %>;
 
         let apiKey = localStorage.getItem("uploader_apiKey") || "";
         let key = $("#key-input").val(apiKey);
-
-        const domains = [
-          "https://im.sleepdeprived.wtf",
-          "https://ur.sleepdeprived.wtf",
-          "https://probably.sleepdeprived.wtf",
-          "https://because.sleepdeprived.wtf",
-          "https://im.horny.rip",
-          "https://ur.horny.rip",
-          "https://probably.horny.rip",
-          "https://because.horny.rip",
-        ];
 
         function setApiKey(key) {
           apiKey = key;

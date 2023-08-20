@@ -24,7 +24,9 @@ const router: Router = Router();
 
 router.post("/", (req: Request, res: Response) => {
   try {
-    const { key } = req.headers as { key: string };
+    const { key } = req.headers as {
+      key: string;
+    };
 
     if (!config.keys.includes(key)) {
       return res.status(403).send({

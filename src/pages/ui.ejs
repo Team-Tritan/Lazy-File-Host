@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+      body {
+        color: white;
+        text-align: center;
+        font-family: Helvetica, Arial, sans-serif;
+        margin-top: 10%;
+        background: #04010a;
+      }
+
+      #dropzone {
+        width: 75vw;
+        height: 50vh;
+        border: 2px dashed rgb(46, 54, 99);
+        padding: 20px;
+        text-align: center;
+        font-size: 1.5em;
+        margin: 20px auto;
+      }
+
+      #link a {
+        margin: 20px;
+        font-size: 1.5em;
+        color: white;
+      }
+
+      #key-input {
+        background-color: transparent;
+        color: white;
+        border-radius: 10px;
+        border: 2px solid rgb(46, 54, 99);
+        padding: 14px;
+        outline-style: none;
+      }
+
+      #login {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="login">
+      <input
+        type="password"
+        placeholder="Authentication key"
+        id="key-input"
+        pattern=".*\S+.*"
+        required
+      />
+
+      <p id="key-button" style="font-size: 0.9em">Login →</p>
+
+      <p style="margin-top: 30px; color: grey">
+        If you would like to request an API key, join our
+        <a
+          style="color: grey; text-decoration: none"
+          href="https://tritan.gg/http"
+          >Discord</a
+        >.
+      </p>
+    </div>
+
+    <div id="dropzone" style="display: none">Drop an image here to upload.</div>
+    <div id="link"></div>
+
+    <script>
+      $(document).ready(function () {
+        const dropzone = $("#dropzone");
+        let apiKey = localStorage.getItem("apiKey") || "";
+        const domains = [];
+
+        $("#key-input").val(apiKey);
+
+        $("#key-button").click(function () {
+          apiKey = $("#key-input").val();
+
+          if (!apiKey) {
+            alert("Please enter an API key.");
+            return;
+          }
+
+          localStorage.setItem("apiKey", apiKey);
+          $("#login").hide();
+          dropzone.show();
+        });
+
+        dropzone.on({
+          dragover: function () {
+            dropzone.css("background-color", "#eee");
+            return false;
+          },
+
+          dragleave: function () {
+            dropzone.css("background-color", "");
+            return false;
+          },
+
+          drop: function (e) {
+            e.preventDefault();
+            dropzone.css("background-color", "");
+
+            const formData = new FormData();
+            formData.append("sharex", e.originalEvent.dataTransfer.files[0]);
+
+            $.ajax({
+              url: "/api/upload",
+              type: "POST",
+              data: formData,
+              processData: false,
+              contentType: false,
+              headers: {
+                Authorization: apiKey,
+              },
+
+              success: function (data) {
+                const domain =
+                  domains[Math.floor(Math.random() * domains.length)];
+                const link = domain + data.url;
+
+                $("#link")
+                  .html(`<a href="${link}">${link}</a>`)
+                  .addClass("link");
+              },
+
+              error: function (xhr, status, error) {
+                alert(`Error uploading file: ${error}`);
+              },
+            });
+          },
+          click: function () {
+            const fileInput = $("<input type='file' style='display: none;'>");
+            fileInput.on("change", function () {
+              const formData = new FormData();
+              formData.append("sharex", fileInput[0].files[0]);
+
+              $.ajax({
+                url: "/api/upload",
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                headers: {
+                  key: apiKey,
+                },
+
+                success: function (data) {
+                  const domain =
+                    domains[Math.floor(Math.random() * domains.length)];
+                  const link = domain + data.url;
+
+                  $("#link")
+                    .html(`<a href="${link}">${link}</a>`)
+                    .addClass("link");
+                },
+
+                error: function (xhr, status, error) {
+                  alert(`Error uploading file: ${error}`);
+                },
+              });
+            });
+
+            fileInput.click();
+          },
+        });
+      });
+    </script>
+  </body>
+</html>

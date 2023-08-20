@@ -32,6 +32,15 @@
     />
     <link type="application/json+oembed" href="/api/content/raw/<%=name%>" />
   </head>
+  <style>
+    body {
+      color: white;
+      text-align: center;
+      font-family: Helvetica, Arial, sans-serif;
+      margin-top: 10%;
+      background: #04010a;
+    }
+  </style>
   <body class="bg-dark">
     <div class="row mt-5 no-gutters">
       <div class="col-md-3"></div>
@@ -39,7 +48,8 @@
         <div class="text-center bg-dark mb-4">
           <div class="card-body">
             <h1><%=name%></h1>
-            <% if(ext.includes('.txt' || '.md' || '.css' || '.exe' || '.html' || '.mp4' || '.heic' )){ %>
+            <% if(ext.includes('.txt' || '.md' || '.css' || '.exe' || '.html' ||
+            '.mp4' || '.heic' )){ %>
             <meta
               http-equiv="Refresh"
               content="0; url='/api/content/raw/<%=name%>'"
@@ -57,9 +67,13 @@
                 "
               />
             </a>
-              <center>
-              <a style="text-decoration: none; color: #5865F2;" href="mailto:netops@tritan.dev?subject=REPORT: <%=name%>&body=Hi, I'd like to report <%=name%> which was uploaded onto your sharex image host.">Report</a>
-              </center>
+            <center>
+              <a
+                style="text-decoration: none; color: #5865f2"
+                href="mailto:netops@tritan.dev?subject=REPORT: <%=name%>&body=Hi, I'd like to report <%=name%> which was uploaded onto your sharex image host."
+                >Report</a
+              >
+            </center>
           </div>
         </div>
       </div>

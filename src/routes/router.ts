@@ -8,7 +8,6 @@ import express, {
 } from "express";
 import imageRouter from "./index";
 import uploadRouter from "./api/upload";
-import webUploader from "./uploader";
 
 const router: Router = express.Router();
 
@@ -18,7 +17,6 @@ router.use("*", (req: Request, res: Response, next: NextFunction) => {
 });
 
 router.use("/", imageRouter);
-router.use("/uploader", webUploader);
 router.use("/api/upload", uploadRouter);
 
 router.use("*", (req: Request, res: Response, error: any) => {

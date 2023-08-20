@@ -12,10 +12,7 @@ function getPath(dir: string): string {
 }
 
 router.get("/", (req: Request, res: Response) => {
-  const data = {
-    dirs: config.dirs,
-  };
-  res.render("sus.ejs", data);
+  res.render("ui.ejs");
 });
 
 router.get("/:dir/:file", (req: Request, res: Response) => {

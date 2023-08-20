@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <script
@@ -10,10 +11,7 @@
       integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
       crossorigin="anonymous"
     ></script>
-    <link
-      rel="stylesheet"
-      href="https://cdn.upload.systems/assets/css/argon.css"
-    />
+
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="/api/content/raw/<%=name%>" />
     <meta name="twitter:image:src" content="/api/content/raw/<%=name%>" />
@@ -40,6 +38,44 @@
       margin-top: 10%;
       background: #04010a;
     }
+
+    body.bg-dark {
+      background-color: #04010a !important;
+    }
+
+    .row.mt-5.no-gutters {
+      margin-top: 5% !important;
+    }
+
+    .col-md-6.mx-2 {
+      width: 75vw !important;
+      margin: 0 auto !important;
+    }
+
+    .text-center.bg-dark.mb-4 {
+      background-color: #04010a !important;
+      margin-bottom: 4% !important;
+    }
+
+    .card-body {
+      padding: 1.25rem !important;
+    }
+
+    h1 {
+      font-size: 2.5rem !important;
+    }
+
+    img {
+      max-height: 75vh !important;
+      width: auto !important;
+      max-width: 100% !important;
+      border-radius: 0.25rem !important;
+    }
+    
+    a[style="text-decoration: none; color: #5865f2"] {
+      text-decoration: none !important;
+      color: #5865f2 !important;
+    }
   </style>
   <body class="bg-dark">
     <div class="row mt-5 no-gutters">
@@ -59,14 +95,9 @@
               <img
                 src="/api/content/raw/<%=name%>"
                 alt="Click here to download/open the file."
-                style="
-                  max-height: 75vh;
-                  width: auto;
-                  max-width: 100%;
-                  border-radius: 0.25rem;
-                "
               />
             </a>
+            <br />
             <center>
               <a
                 style="text-decoration: none; color: #5865f2"

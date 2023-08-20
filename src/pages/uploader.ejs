@@ -97,7 +97,8 @@
           $("#key-input").val(apiKey);
         }
 
-        $("#key-input").val(apiKey);
+        // Fetch the API key from local storage and set it as the input value
+        setApiKey(apiKey);
 
         $("#key-button").click(function () {
           const inputKey = $("#key-input").val();

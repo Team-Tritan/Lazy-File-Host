@@ -3,12 +3,18 @@ import fs from "fs";
 
 const router = Router();
 
+interface Keys {
+  key: string;
+  ip: any;
+  created_at: string;
+}
+
 router.post("/", (req: Request, res: Response) => {
   try {
     const ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
     const keys = JSON.parse(fs.readFileSync("keys.json", "utf8"));
 
-    const newKey = {
+    const newKey: Keys = {
       key: generateRandomKey(10),
       created_at: new Date().toISOString(),
       ip: ip,

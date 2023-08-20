@@ -8,6 +8,12 @@ interface UploadedFile {
   mv: (path: string, callback?: (err: Error | null) => void) => void;
 }
 
+interface Keys {
+  key: string;
+  ip: any;
+  created_at: string;
+}
+
 function generateRandomName(length: number): string {
   let result = "";
   const characters =
@@ -29,7 +35,7 @@ router.post("/", (req: Request, res: Response) => {
 
     const keys = JSON.parse(fs.readFileSync("keys.json", "utf8"));
 
-    if (!keys.some((k: { key: string }) => k.key === key)) {
+    if (!keys.some((k: Keys) => k.key === key)) {
       return res.status(403).send({
         status: 403,
         message: "Invalid key retard.",

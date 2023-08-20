@@ -2,3 +2,5 @@ uploads
 node_modules
 src/upload-log.json
 src/keys.json
+src/upload-log.json.example
+src/keys.json.example

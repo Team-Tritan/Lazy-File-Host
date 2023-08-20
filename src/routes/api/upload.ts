@@ -14,17 +14,6 @@ interface Keys {
   created_at: string;
 }
 
-function generateRandomName(length: number): string {
-  let result = "";
-  const characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  const charactersLength = characters.length;
-  for (let i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  }
-  return result;
-}
-
 const router: Router = Router();
 
 router.post("/", (req: Request, res: Response) => {
@@ -101,5 +90,16 @@ router.post("/", (req: Request, res: Response) => {
     console.error(`[ERROR] ${err.stack}`);
   }
 });
+
+function generateRandomName(length: number): string {
+  let result = "";
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  const charactersLength = characters.length;
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
+}
 
 export default router;

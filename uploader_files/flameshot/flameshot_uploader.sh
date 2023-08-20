@@ -2,7 +2,7 @@
 
 API="https://im.horny.rip/api/upload/"
 API_KEY="fuckurmom"
-domains=(
+DOMAINS=(
     "https://im.sleepdeprived.wtf"
     "https://ur.sleepdeprived.wtf"
     "https://probably.sleepdeprived.wtf"

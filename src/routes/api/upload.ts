@@ -2,16 +2,12 @@ import { Router, type Request, type Response } from "express";
 import path from "path";
 import config from "../../config";
 import fs from "fs";
+import { keys as keyFunctions } from "../../functions";
+import { type IKeys } from "../../functions/keys";
 
 interface IUploadedFile {
   name: string;
   mv: (path: string, callback?: (err: Error | null) => void) => void;
-}
-
-interface IKeys {
-  key: string;
-  ip: any;
-  created_at: string;
 }
 
 const router: Router = Router();
@@ -22,7 +18,7 @@ router.post("/", (req: Request, res: Response) => {
       key: string;
     };
 
-    const keys = JSON.parse(fs.readFileSync("keys.json", "utf8"));
+    const keys = keyFunctions.loadKeysFromFile();
 
     if (!keys.some((k: IKeys) => k.key === key)) {
       return res.status(403).send({
@@ -44,7 +40,7 @@ router.post("/", (req: Request, res: Response) => {
 
     const singleSharex = Array.isArray(sharex) ? sharex[0] : sharex;
     const ext = path.extname(singleSharex.name);
-    const name = generateRandomName(10);
+    const name = keyFunctions.generateRandomKey(10);
     const dir = config.dirs[Math.floor(Math.random() * config.dirs.length)];
     const ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
 
@@ -92,16 +88,5 @@ router.post("/", (req: Request, res: Response) => {
     console.error(`[ERROR] ${err.stack}`);
   }
 });
-
-function generateRandomName(length: number): string {
-  let result = "";
-  const characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  const charactersLength = characters.length;
-  for (let i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  }
-  return result;
-}
 
 export default router;

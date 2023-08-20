@@ -1,6 +1,6 @@
 "use strict";
 
-import express from "express";
+import { Router, type Response } from "express";
 import fs from "fs";
 
 interface IKeys {
@@ -22,7 +22,7 @@ interface IShareXConfig {
   URL: string;
 }
 
-const router = express.Router();
+const router: Router = Router();
 const keysFile = "keys.json";
 
 router.post("/", (req, res) => {
@@ -73,7 +73,7 @@ function generateShareXConfig(key: string): IShareXConfig {
   };
 }
 
-function sendShareXConfig(res: express.Response, config: IShareXConfig): void {
+function sendShareXConfig(res: Response, config: IShareXConfig): void {
   const file = JSON.stringify(config, null, 2);
   const fileName = "sharex-config.sxcu";
 

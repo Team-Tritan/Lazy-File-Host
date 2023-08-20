@@ -1,6 +1,6 @@
 "use strict";
 
-import express, { Express } from "express";
+import express, { type Express } from "express";
 import fileUpload from "express-fileupload";
 import cors from "cors";
 import bodyParser from "body-parser";

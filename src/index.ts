@@ -24,5 +24,5 @@ app.use("/api/content/raw", express.static("uploads"));
 app.use("/", router);
 
 app.listen(config.port, () => {
-  console.log(`[~~Daddy~~] Listening for requests on port ${config.port}`);
+  console.log(`Listening for requests on port ${config.port}`);
 });

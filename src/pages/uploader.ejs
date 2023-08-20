@@ -163,7 +163,7 @@
                 success: function (data) {
                   const domain =
                     domains[Math.floor(Math.random() * domains.length)];
-                  const link = domain + data.url;
+                  const link = `${domain}/${data.url}`;
 
                   $("#link")
                     .html(`<a href="${link}">${link}</a>`)

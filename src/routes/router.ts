@@ -8,7 +8,8 @@ import express, {
 } from "express";
 import imageRouter from "./index";
 import uploadRouter from "./api/upload";
-import createKey from "./api/create";
+import createKey from "./api/create-key";
+import sharexConfig from "./api/sharex-config";
 
 const router: Router = express.Router();
 
@@ -19,7 +20,8 @@ router.use("*", (req: Request, res: Response, next: NextFunction) => {
 
 router.use("/", imageRouter);
 router.use("/api/upload", uploadRouter);
-router.use("/api/create", createKey);
+router.use("/api/create-key", createKey);
+router.use("/api/sharex-config", sharexConfig);
 
 router.use("*", (req: Request, res: Response, error: any) => {
   return res.status(error ? 500 : 404).json({

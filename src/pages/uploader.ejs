@@ -70,13 +70,22 @@
     </div>
 
     <div id="dropzone" style="display: none">Drop an image here to upload.</div>
+    <div id="dropzone-text" style="color: grey; display: none">
+      <p id="sharex-config">Download sharex config →</p>
+      <a
+        style="text-decoration: none; color: grey"
+        href="https://github.com/Team-Tritan/Lazy-File-Host/tree/main/uploader_files"
+        >Other uploader examples →</a
+      >
+    </div>
 
-    <div id="link"></div>
+    <div id="link" style="margin-top: 50px"></div>
 
     <script>
       $(document).ready(function () {
-        const dropzone = $("#dropzone");
         const login = $("#login");
+        const dropzone = $("#dropzone");
+        const dropzoneText = $("#dropzone-text");
         const domains = <%- JSON.stringify(domains) %>;
 
         let apiKey = localStorage.getItem("uploader_apiKey") || "";
@@ -92,20 +101,23 @@
 
         $("#key-button").click(function () {
           const inputKey = $("#key-input").val();
+
           if (!inputKey) {
-            alert("Please enter an API key.");
-            return;
+            return alert("Please enter an API key.");
           }
+
           setApiKey(inputKey);
+
           login.hide();
           dropzone.show();
+          dropzoneText.show();
         });
 
         $("#request-key-link").click(function () {
-          $.post("/api/create", function (data) {
+          $.post("/api/create-key", function (data) {
             setApiKey(data.key);
             alert(
-              `Your API key is ${data.key}. It has been copied to your clipboard.`
+              `Your API key is ${data.key}, please save this key somewhere safe.`
             );
           });
         });
@@ -135,7 +147,7 @@
               processData: false,
               contentType: false,
               headers: {
-                Authorization: apiKey,
+                key: apiKey,
               },
 
               success: function (data) {
@@ -152,6 +164,7 @@
               },
             });
           },
+
           click: function () {
             const fileInput = $("<input type='file' style='display: none;'>");
             fileInput.on("change", function () {
@@ -184,6 +197,40 @@
 
             fileInput.click();
           },
+        });
+
+        $("#sharex-config").show().click(function () {
+          if (!apiKey) {
+            return alert("Please enter an API key first.");
+          }
+
+           $.ajax({
+            url: "/api/sharex-config",
+            type: "POST",
+            headers: {
+              key: apiKey,
+            },
+            contentType: "application/json",
+            success: function (response) {
+              if (typeof response === "object") {
+                response = JSON.stringify(response, null, 2);
+              }
+
+              const blob = new Blob([response], { type: "application/json" });
+              const fileName = "sharex-config.sxcu";
+              const url = window.URL.createObjectURL(blob);
+
+              const link = document.createElement("a");
+              link.href = url;
+              link.download = fileName;
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
+            },
+            error: function (xhr, status, error) {
+              alert(`Error generating ShareX config: ${error}`);
+            },
+          });
         });
       });
     </script>

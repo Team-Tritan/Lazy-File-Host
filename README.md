@@ -1,6 +1,8 @@
 # lazy-sharex-server
 Speedran a lazy sharex image server while we wait for [Windy Pink](https://discord.gg/DtuwECHGxG) to be revived.
 
+## Live version replaced with [v2](https://github.com/team-tritan/lazy-file-host-go)!!!!
+
 ## Requirements
 - Node 16.x.x
 - An open port
